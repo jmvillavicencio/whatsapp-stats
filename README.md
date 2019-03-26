@@ -1,4 +1,4 @@
-# pamela
+# whatsapp stats
 
 ## Project setup
 ```
