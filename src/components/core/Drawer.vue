@@ -29,7 +29,7 @@
             />
           </v-list-tile-avatar>
           <v-list-tile-title class="title">
-            Pamela stats
+            <span id="group-name-container">{{ groupName || 'Whatsapp' }}</span> stats
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
@@ -56,6 +56,19 @@
           <v-list-tile-title
             v-text="link.text"
           />
+        </v-list-tile>
+        <v-list-tile
+          disabled
+          active-class="primary"
+          class="v-list-item v-list__tile--buy"
+          to="/upload"
+        >
+          <v-list-tile-action>
+            <v-icon>mdi-package-up</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title class="font-weight-light">
+            Upload new chat
+          </v-list-tile-title>
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -98,6 +111,7 @@ export default {
   }),
   computed: {
     ...mapState('app', ['image', 'color']),
+    ...mapState(['groupName']),
     inputValue: {
       get () {
         return this.$store.state.app.drawer
@@ -132,6 +146,14 @@ export default {
 
 <style lang="scss">
   #app-drawer {
+
+    #group-name-container {
+      overflow: hidden;
+      max-width: 115px;
+      display: inline-block;
+      vertical-align: bottom;
+      text-overflow: ellipsis;
+    }
     .v-list__tile {
       border-radius: 4px;
 
