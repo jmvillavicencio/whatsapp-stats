@@ -7,21 +7,26 @@ export default [
   {
     path: '/dashboard',
     // Relative to /src/views
-    view: 'Dashboard'
+    view: 'Dashboard',
   },
   {
     path: '/participations',
     name: 'Participations',
-    view: 'Participations'
+    view: 'Participations',
   },
   {
     path: '/laughs',
     name: 'Laughs',
-    view: 'Laughs'
+    view: 'Laughs',
   },
   {
     path: '/letters',
     name: 'Letters',
     view: 'Letters',
   },
-]
+  {
+    path: '/upload',
+    name: 'Upload',
+    view: 'Upload',
+  },
+];
