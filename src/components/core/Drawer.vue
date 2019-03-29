@@ -57,19 +57,6 @@
             v-text="link.text"
           />
         </v-list-tile>
-        <v-list-tile
-          disabled
-          active-class="primary"
-          class="v-list-item v-list__tile--buy"
-          to="/upgrade"
-        >
-          <v-list-tile-action>
-            <v-icon>mdi-package-up</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title class="font-weight-light">
-            Upgrade To PRO
-          </v-list-tile-title>
-        </v-list-tile>
       </v-layout>
     </v-img>
   </v-navigation-drawer>
@@ -92,35 +79,20 @@ export default {
         text: 'Dashboard'
       },
       {
-        to: '/user-profile',
-        icon: 'mdi-account',
-        text: 'User Profile'
+        to: '/letters',
+        icon: 'mdi-chart-areaspline',
+        text: 'Letter count stats'
       },
       {
-        to: '/table-list',
-        icon: 'mdi-clipboard-outline',
-        text: 'Table List'
+        to: '/participations',
+        icon: 'mdi-chart-bar',
+        text: 'Participations'
       },
       {
-        to: '/typography',
-        icon: 'mdi-format-font',
-        text: 'Typography'
+        to: '/laughs',
+        icon: 'mdi-chart-bar',
+        text: 'Laughs'
       },
-      {
-        to: '/icons',
-        icon: 'mdi-chart-bubble',
-        text: 'Icons'
-      },
-      {
-        to: '/maps',
-        icon: 'mdi-map-marker',
-        text: 'Maps'
-      },
-      {
-        to: '/notifications',
-        icon: 'mdi-bell',
-        text: 'Notifications'
-      }
     ],
     responsive: false
   }),
