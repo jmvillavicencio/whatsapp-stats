@@ -6,94 +6,36 @@
   >
     <v-layout wrap>
       <v-flex
-        md12
-        sm12
+        xs4
+        md4
         lg4
       >
-        <material-chart-card
-          :data="dailySalesChart.data"
-          :options="dailySalesChart.options"
-          color="info"
-          type="Pie"
-        >
-          <h4 class="title font-weight-light">Daily Sales</h4>
-          <p class="category d-inline-flex font-weight-light">
-            <v-icon
-              color="green"
-              small
+        <material-card class="v-card-profile" width="100%">
+          <v-avatar
+            slot="offset"
+            class="mx-auto d-block"
+            size="130"
+          >
+            <img
+              src="/img/vuetifylogo.png"
             >
-              mdi-arrow-up
-            </v-icon>
-            <span class="green--text">55%</span>&nbsp;
-            increase in today's sales
-          </p>
-
-          <template slot="actions">
-            <v-icon
-              class="mr-2"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="caption grey--text font-weight-light">updated 4 minutes ago</span>
-          </template>
-        </material-chart-card>
+          </v-avatar>
+          <v-card-text class="text-xs-center" >
+            <h6 class="category text-gray font-weight-thin mb-3">Whatsapp Group Stats</h6>
+            <h4 class="card-title font-weight-light">You didn't upload any file yet.</h4>
+            <v-btn
+              color="success"
+              round
+              class="font-weight-light"
+              to="/upload"
+            >Upload Conversation</v-btn>
+          </v-card-text>
+        </material-card>
       </v-flex>
       <v-flex
-        md12
-        sm12
-        lg4
-      >
-        <material-chart-card
-          :data="emailsSubscriptionChart.data"
-          :options="emailsSubscriptionChart.options"
-          :responsive-options="emailsSubscriptionChart.responsiveOptions"
-          color="red"
-          type="Bar"
-        >
-          <h4 class="title font-weight-light">Email Subscription</h4>
-          <p class="category d-inline-flex font-weight-light">Last Campaign Performance</p>
-
-          <template slot="actions">
-            <v-icon
-              class="mr-2"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="caption grey--text font-weight-light">updated 10 minutes ago</span>
-          </template>
-        </material-chart-card>
-      </v-flex>
-      <v-flex
-        md12
-        sm12
-        lg4
-      >
-        <material-chart-card
-          :data="dataCompletedTasksChart.data"
-          :options="dataCompletedTasksChart.options"
-          color="green"
-          type="Pie"
-        >
-          <h3 class="title font-weight-light">Completed Tasks</h3>
-          <p class="category d-inline-flex font-weight-light">Last Last Campaign Performance</p>
-
-          <template slot="actions">
-            <v-icon
-              class="mr-2"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="caption grey--text font-weight-light">campaign sent 26 minutes ago</span>
-          </template>
-        </material-chart-card>
-      </v-flex>
-      <v-flex
-        sm6
         xs12
-        md6
+        sm6
+        md3
         lg3
       >
         <material-stats-card
@@ -108,7 +50,7 @@
       <v-flex
         sm6
         xs12
-        md6
+        md3
         lg3
       >
         <material-stats-card
@@ -360,6 +302,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { loadScript, getParticipations, getLaughs } from '../api/generateStats';
 
 export default {
@@ -367,13 +310,23 @@ export default {
     return {
       dailySalesChart: {
         data: {
-          labels: [],
-          series: []
+          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          series: [
+            [12, 17, 7, 17, 23, 18, 38]
+          ]
         },
         options: {
-          chartPadding: 30,
-  labelOffset: 50,
-  labelDirection: 'explode'
+          lineSmooth: this.$chartist.Interpolation.cardinal({
+            tension: 0
+          }),
+          low: 0,
+          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          chartPadding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          }
         }
       },
       dataCompletedTasksChart: {
@@ -481,6 +434,9 @@ export default {
         2: false
       }
     }
+  },
+  computed: {
+    ...mapState(['groupName']),
   },
   async mounted() {
     await loadScript();
