@@ -16,7 +16,7 @@
           color="info"
           type="Pie"
         >
-          <h4 class="title font-weight-light">laughs count</h4>
+          <h4 class="title font-weight-light">Laughs count</h4>
           <p class="category font-weight-light">
             <span class="green--text">{{ dailySalesChart.data.labels[0] }}</span>&nbsp;wins in number of laughs written
           </p>
@@ -42,7 +42,7 @@
       >
       <material-card
         color="orange"
-        title="laughs written Stats"
+        title="Laughs Stats"
         text="Ranking of number of laughs"
       >
         <v-data-table

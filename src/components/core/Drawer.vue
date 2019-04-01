@@ -92,7 +92,7 @@ export default {
       },
       {
         to: '/letters',
-        icon: 'mdi-chart-areaspline',
+        icon: 'mdi-alphabetical',
         text: 'Letter count stats'
       },
       {
@@ -102,7 +102,7 @@ export default {
       },
       {
         to: '/laughs',
-        icon: 'mdi-chart-bar',
+        icon: 'mdi-emoticon',
         text: 'Laughs'
       },
     ],
