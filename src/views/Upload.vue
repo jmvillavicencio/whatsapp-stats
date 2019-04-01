@@ -29,9 +29,9 @@ export default {
     ...mapState(['groupName']),
   },
   methods: {
-    ...mapActions(['setGroupName', 'setChatContent']),
-    fileSelected(fileContent) {
-      this.setChatContent(fileContent);
+    ...mapActions(['setGroupName', 'setChat']),
+    fileSelected(file) {
+      this.setChat(file);
     },
   },
 };

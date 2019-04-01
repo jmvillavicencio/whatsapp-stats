@@ -1,14 +1,15 @@
-n de<template>
+<template>
   <v-container
     fill-height
     fluid
     grid-list-xl
   >
-    <v-layout wrap>
+    <v-layout wrap v-if="!chatContent">
       <v-flex
-        xs3
-        md3
-        lg3
+        xs4
+        md4
+        lg4
+        offset-xs4
       >
         <material-card class="v-card-profile" width="100%">
           <v-avatar
@@ -32,21 +33,8 @@ n de<template>
           </v-card-text>
         </material-card>
       </v-flex>
-      <v-flex
-        xs12
-        sm6
-        md3
-        lg3
-      >
-        <material-stats-card
-          color="green"
-          icon="mdi-store"
-          title="Revenue"
-          value="$34,245"
-          sub-icon="mdi-calendar"
-          sub-text="Last 24 Hours"
-        />
-      </v-flex>
+    </v-layout>
+    <v-layout wrap v-else>
       <v-flex
         sm6
         xs12
@@ -56,41 +44,54 @@ n de<template>
         <material-stats-card
           color="orange"
           icon="mdi-content-copy"
-          title="Used Space"
-          value="49/50"
-          small-value="GB"
-          sub-icon="mdi-alert"
-          sub-icon-color="error"
-          sub-text="Get More Space..."
-          sub-text-color="text-primary"
+          title="File Size"
+          :value="chatSizeInKB"
+          small-value="KB"
+          sub-icon="mdi-update"
+          sub-text="Just Updated"
         />
       </v-flex>
       <v-flex
-        sm6
         xs12
-        md6
+        sm6
+        md3
         lg3
       >
         <material-stats-card
-          color="red"
-          icon="mdi-information-outline"
-          title="Fixed Issues"
-          value="75"
-          sub-icon="mdi-tag"
-          sub-text="Tracked from Github"
+          color="green"
+          icon="mdi-file-word-box"
+          title="Number of words"
+          :value="qtyWords"
+          sub-icon="mdi-update"
+          sub-text="Just Updated"
         />
       </v-flex>
       <v-flex
-        sm6
         xs12
-        md6
+        sm6
+        md3
         lg3
       >
         <material-stats-card
-          color="info"
-          icon="mdi-twitter"
-          title="Followers"
-          value="+245"
+          color="green"
+          icon="mdi-alphabetical"
+          title="Number of letters"
+          :value="qtyLetters"
+          sub-icon="mdi-update"
+          sub-text="Just Updated"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        sm6
+        md3
+        lg3
+      >
+        <material-stats-card
+          color="green"
+          icon="mdi-emoticon"
+          title="Number of laughs"
+          :value="qtyLaughs"
           sub-icon="mdi-update"
           sub-text="Just Updated"
         />
@@ -101,12 +102,12 @@ n de<template>
       >
         <material-card
           color="orange"
-          title="Employee Stats"
-          text="New employees on 15th September, 2016"
+          title="Participants"
+          text="Participants of whatsapp group"
         >
           <v-data-table
             :headers="headers"
-            :items="items"
+            :items="stats"
             hide-actions
           >
             <template
@@ -120,181 +121,14 @@ n de<template>
             </template>
             <template
               slot="items"
-              slot-scope="{ index, item }"
+              slot-scope="{ item }"
             >
-              <td>{{ index + 1 }}</td>
-              <td>{{ item.name }}</td>
-              <td class="text-xs-right">{{ item.salary }}</td>
-              <td class="text-xs-right">{{ item.country }}</td>
-              <td class="text-xs-right">{{ item.city }}</td>
+              <td>{{ item.participant }}</td>
+              <td class="text-xs-right">{{ item.participations }}</td>
+              <td class="text-xs-right">{{ item.letters }}</td>
+              <td class="text-xs-right">{{ item.laughs }}</td>
             </template>
           </v-data-table>
-        </material-card>
-      </v-flex>
-      <v-flex
-        md12
-        lg6
-      >
-        <material-card
-          class="card-tabs"
-          color="green">
-          <v-flex
-            slot="header"
-          >
-            <v-tabs
-              v-model="tabs"
-              color="transparent"
-              slider-color="white"
-            >
-              <span
-                class="subheading font-weight-light mr-3"
-                style="align-self: center"
-              >Tasks:</span>
-              <v-tab class="mr-3">
-                <v-icon class="mr-2">mdi-bug</v-icon>
-                Bugs
-              </v-tab>
-              <v-tab class="mr-3">
-                <v-icon class="mr-2">mdi-code-tags</v-icon>
-                Website
-              </v-tab>
-              <v-tab>
-                <v-icon class="mr-2">mdi-cloud</v-icon>
-                Server
-              </v-tab>
-            </v-tabs>
-          </v-flex>
-
-          <v-tabs-items v-model="tabs">
-            <v-tab-item
-              v-for="n in 3"
-              :key="n"
-            >
-              <v-list three-line>
-                <v-list-tile @click="complete(0)">
-                  <v-list-tile-action>
-                    <v-checkbox
-                      :value="list[0]"
-                      color="green"
-                    />
-                  </v-list-tile-action>
-                  <v-list-tile-title>
-                    Sign contract for "What are conference organized afraid of?"
-                  </v-list-tile-title>
-                  <div class="d-flex">
-                    <v-tooltip
-                      top
-                      content-class="top">
-                      <v-btn
-                        slot="activator"
-                        class="v-btn--simple"
-                        color="success"
-                        icon
-                      >
-                        <v-icon color="primary">mdi-pencil</v-icon>
-                      </v-btn>
-                      <span>Edit</span>
-                    </v-tooltip>
-                    <v-tooltip
-                      top
-                      content-class="top">
-                      <v-btn
-                        slot="activator"
-                        class="v-btn--simple"
-                        color="danger"
-                        icon
-                      >
-                        <v-icon color="error">mdi-close</v-icon>
-                      </v-btn>
-                      <span>Close</span>
-                    </v-tooltip>
-
-                  </div>
-                </v-list-tile>
-                <v-divider/>
-                <v-list-tile @click="complete(1)">
-                  <v-list-tile-action>
-                    <v-checkbox
-                      :value="list[1]"
-                      color="success"
-                    />
-                  </v-list-tile-action>
-                  <v-list-tile-title>
-                    Lines From Great Russian Literature? Or E-mails From My Boss?
-                  </v-list-tile-title>
-                  <div class="d-flex">
-                    <v-tooltip
-                      top
-                      content-class="top">
-                      <v-btn
-                        slot="activator"
-                        class="v-btn--simple"
-                        color="success"
-                        icon
-                      >
-                        <v-icon color="primary">mdi-pencil</v-icon>
-                      </v-btn>
-                      <span>Edit</span>
-                    </v-tooltip>
-
-                    <v-tooltip
-                      top
-                      content-class="top">
-                      <v-btn
-                        slot="activator"
-                        class="v-btn--simple"
-                        color="danger"
-                        icon>
-                        <v-icon color="error">mdi-close</v-icon>
-                      </v-btn>
-                      <span>Close</span>
-                    </v-tooltip>
-                  </div>
-                </v-list-tile>
-                <v-divider/>
-                <v-list-tile @click="complete(2)">
-                  <v-list-tile-action>
-                    <v-checkbox
-                      :value="list[2]"
-                      color="success"
-                    />
-                  </v-list-tile-action>
-                  <v-list-tile-title>
-                    Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                  </v-list-tile-title>
-                  <div class="d-flex">
-                    <v-tooltip
-                      top
-                      content-class="top">
-                      <v-btn
-                        slot="activator"
-                        class="v-btn--simple"
-                        color="success"
-                        icon
-                      >
-                        <v-icon color="primary">mdi-pencil</v-icon>
-                      </v-btn>
-                      <span>Edit</span>
-                    </v-tooltip>
-                    <v-tooltip
-                      top
-                      content-class="top">
-                      <v-btn
-                        slot="activator"
-                        class="v-btn--simple"
-                        color="danger"
-                        icon
-                      >
-                        <v-icon color="error">mdi-close</v-icon>
-                      </v-btn>
-                      <span>Close</span>
-                    </v-tooltip>
-
-                  </div>
-                </v-list-tile>
-              </v-list>
-            </v-tab-item>
-          </v-tabs-items>
         </material-card>
       </v-flex>
     </v-layout>
@@ -303,7 +137,7 @@ n de<template>
 
 <script>
 import { mapState } from 'vuex';
-import { loadScript, getParticipations, getLaughs } from '../api/generateStats';
+import { getParticipations, getLaughs, getWordsCount, getLettersCount, getLaughsCount, getStats } from '../api/generateStats';
 
 export default {
   data () {
@@ -371,87 +205,48 @@ export default {
       headers: [
         {
           sortable: false,
-          text: 'ID',
-          value: 'id'
-        },
-        {
-          sortable: false,
           text: 'Name',
-          value: 'name'
+          value: 'participant'
         },
         {
           sortable: false,
-          text: 'Salary',
-          value: 'salary',
+          text: 'No. Participations',
+          value: 'participations',
           align: 'right'
         },
         {
           sortable: false,
-          text: 'Country',
-          value: 'country',
+          text: 'No. Letters',
+          value: 'letters',
           align: 'right'
         },
         {
           sortable: false,
-          text: 'City',
-          value: 'city',
+          text: 'No. Laughs',
+          value: 'laughs',
           align: 'right'
         }
       ],
-      items: [
-        {
-          name: 'Dakota Rice',
-          country: 'Niger',
-          city: 'Oud-Tunrhout',
-          salary: '$35,738'
-        },
-        {
-          name: 'Minerva Hooper',
-          country: 'Curaçao',
-          city: 'Sinaai-Waas',
-          salary: '$23,738'
-        }, {
-          name: 'Sage Rodriguez',
-          country: 'Netherlands',
-          city: 'Overland Park',
-          salary: '$56,142'
-        }, {
-          name: 'Philip Chanley',
-          country: 'Korea, South',
-          city: 'Gloucester',
-          salary: '$38,735'
-        }, {
-          name: 'Doris Greene',
-          country: 'Malawi',
-          city: 'Feldkirchen in Kārnten',
-          salary: '$63,542'
-        }
-      ],
-      tabs: 0,
-      list: {
-        0: false,
-        1: false,
-        2: false
-      }
     }
   },
   computed: {
-    ...mapState(['groupName', 'chatContent']),
+    ...mapState(['groupName', 'chatContent', 'chatSize']),
+    stats() {
+      return getStats();
+    },
+    chatSizeInKB() {
+      return ((this.chatSize || 0) /1024).toFixed(2);
+    },
+    qtyWords() {
+      return getWordsCount().toString();
+    },
+    qtyLetters() {
+      return getLettersCount().toString();
+    },
+    qtyLaughs() {
+      return getLaughsCount().toString();
+    },
   },
-  async mounted() {
-    await loadScript(this.chatContent);
-    const { series, labels } = getParticipations();
-    const laughs = getLaughs();
-    this.dailySalesChart.data.labels = labels;
-    this.dailySalesChart.data.series = series;
-    this.dataCompletedTasksChart.data.labels = laughs.labels;
-    this.dataCompletedTasksChart.data.series = laughs.series;
-  },
-  methods: {
-    complete (index) {
-      this.list[index] = !this.list[index]
-    }
-  }
 }
 </script>
 <style>

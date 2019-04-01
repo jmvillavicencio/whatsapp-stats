@@ -2,10 +2,14 @@
 
 
 const regex = /(\d{0,2}\/\d{0,2}\/\d{0,2})\s(\d{0,2}:\d{0,2})\s-\s([A-Za-z ]*):(.*)/gm;
-const participants = {};
+let participants = {};
+const stats = [];
 let totalLetters = 0;
+let totalWords = 0;
 let totalParticipations = 0;
+let totalLaughs = 0;
 export function loadScript(data) {
+  participants = {};
   let m;
   while ((m = regex.exec(data)) !== null) {
     const regexLaugh = /(?:^| )[ja]{3,}(?:$| )/gm;
@@ -54,19 +58,30 @@ export function loadScript(data) {
     participants[current.participant].criterioNacho += criterioNacho;
     totalParticipations += 1;
     totalLetters += current.text.length;
+    totalLaughs += laughs;
+    totalWords += current.text.split(' ').length;
   }
+  generateStats();
+}
+
+function generateStats() {
+  Object.keys(participants).forEach((participant) => {
+    stats.push({
+      participant,
+      participations: participants[participant].countParticipations,
+      laughs: participants[participant].countLaughs,
+      letters: participants[participant].countLetters,
+    })
+  });
 }
 
 export function getParticipations() {
   const series = [];
   const labels = [];
-  const results = [];
-  Object.keys(participants).forEach((participant) => {
-    results.push({
-      participant,
-      count: participants[participant].countParticipations,
-    })
-  });
+  const results = stats.map(e => ({
+    ...e,
+    count: e.participations,
+  }))
   results.sort((a, b) => {
     return b.count - a.count;
   })
@@ -82,13 +97,10 @@ export function getParticipations() {
 export function getLaughs() {
   const series = [];
   const labels = [];
-  const results = [];
-  Object.keys(participants).forEach((participant) => {
-    results.push({
-      participant,
-      count: participants[participant].countLaughs,
-    })
-  });
+  const results = stats.map(e => ({
+    ...e,
+    count: e.laughs,
+  }))
   results.sort((a, b) => {
     return b.count - a.count;
   })
@@ -104,13 +116,10 @@ export function getLaughs() {
 export function getLetters() {
   const series = [];
   const labels = [];
-  const results = [];
-  Object.keys(participants).forEach((participant) => {
-    results.push({
-      participant,
-      count: participants[participant].countLetters,
-    })
-  });
+  const results = stats.map(e => ({
+    ...e,
+    count: e.letters,
+  }))
   results.sort((a, b) => {
     return b.count - a.count;
   })
@@ -121,4 +130,20 @@ export function getLetters() {
   return {
     series, labels,
   };
+}
+
+export function getStats() {
+  return stats;
+}
+
+export function getLettersCount() {
+  return totalLetters;
+}
+
+export function getWordsCount() {
+  return totalWords;
+}
+
+export function getLaughsCount() {
+  return totalLaughs;
 }

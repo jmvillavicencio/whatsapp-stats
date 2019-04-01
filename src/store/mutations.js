@@ -8,4 +8,7 @@ export default {
   setChatContent(state, chatContent) {
     Vue.set(state, 'chatContent', chatContent);
   },
+  setChatSize(state, chatSize) {
+    Vue.set(state, 'chatSize', chatSize);
+  },
 };

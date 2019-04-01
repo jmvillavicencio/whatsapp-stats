@@ -73,11 +73,15 @@ export default {
       this.loading = false;
     },
     getContent(file) {
+      const { size } = file;
       return new Promise((resolve) => {
         var reader = new FileReader();
         reader.onload = function(){
           var text = reader.result;
-          resolve(text);
+          resolve({
+            text,
+            size,
+          });
         };
         reader.readAsText(file);
       })
