@@ -5,4 +5,7 @@ export default {
   setGroupName(state, groupName) {
     Vue.set(state, 'groupName', groupName);
   },
+  setChatContent(state, chatContent) {
+    Vue.set(state, 'chatContent', chatContent);
+  },
 };

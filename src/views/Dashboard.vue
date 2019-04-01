@@ -1,4 +1,4 @@
-<template>
+n de<template>
   <v-container
     fill-height
     fluid
@@ -6,9 +6,9 @@
   >
     <v-layout wrap>
       <v-flex
-        xs4
-        md4
-        lg4
+        xs3
+        md3
+        lg3
       >
         <material-card class="v-card-profile" width="100%">
           <v-avatar
@@ -436,10 +436,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['groupName']),
+    ...mapState(['groupName', 'chatContent']),
   },
   async mounted() {
-    await loadScript();
+    await loadScript(this.chatContent);
     const { series, labels } = getParticipations();
     const laughs = getLaughs();
     this.dailySalesChart.data.labels = labels;

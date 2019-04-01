@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { loadScript, getParticipations, getLaughs } from '../api/generateStats';
 
 export default {
@@ -124,12 +125,13 @@ export default {
     }
   },
   async mounted() {
-    await loadScript();
+    await loadScript(this.chatContent);
     const { series, labels } = getParticipations();
     this.dailySalesChart.data.labels = labels;
     this.dailySalesChart.data.series = series;
   },
   computed: {
+    ...mapState(['chatContent']),
     totalParticipations() {
       return this.dailySalesChart.data.series.reduce((acum, e) => {
         return acum + e;

@@ -58,9 +58,8 @@
           />
         </v-list-tile>
         <v-list-tile
-          disabled
-          active-class="primary"
-          class="v-list-item v-list__tile--buy"
+          active-class="success"
+          class="success v-list-item v-list__tile--buy"
           to="/upload"
         >
           <v-list-tile-action>
